@@ -23,7 +23,7 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 
   body {
     font-family: 'Outfit', sans-serif;
@@ -60,9 +60,13 @@
   /* ── HERO ── */
   .hero {
     min-height: 100vh;
+    min-height: 100dvh;
     background: var(--navy);
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    padding: 88px 0 56px;
+    box-sizing: border-box;
     position: relative;
     overflow: hidden;
   }
@@ -82,9 +86,11 @@
     background-size: 60px 60px;
   }
 
-  .hero-left {
+  .hero-text-col {
+    grid-column: 1;
     display: flex; flex-direction: column; justify-content: center;
-    padding: 120px 64px 80px;
+    align-self: center;
+    padding: 0 48px 0 64px;
     position: relative; z-index: 2;
   }
 
@@ -101,31 +107,67 @@
 
   .hero-name {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(52px, 6vw, 84px);
+    font-size: clamp(48px, 5.5vw, 78px);
     font-weight: 300; line-height: 1.0;
     color: var(--white); margin-bottom: 8px;
+    white-space: nowrap;
     animation: fadeUp 0.8s ease both;
   }
   .hero-name span { font-style: italic; color: var(--gold-light); }
+
+  .hero-linkedin {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-bottom: 32px;
+    padding: 10px 20px;
+    background: var(--white);
+    color: var(--navy);
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none;
+    border-radius: 2px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+    transition: all 0.25s ease;
+    animation: fadeUp 0.8s 0.14s ease both;
+    white-space: nowrap;
+  }
+  .hero-linkedin svg {
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+  }
+  .hero-linkedin:hover {
+    background: var(--gold-light);
+    color: var(--navy);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+  }
 
   .hero-title {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(20px, 2.5vw, 28px);
     font-weight: 400; color: rgba(255,255,255,0.85);
-    margin-bottom: 40px; letter-spacing: 0.02em;
+    margin-bottom: 14px; letter-spacing: 0.02em;
     animation: fadeUp 0.8s 0.1s ease both;
   }
 
   .hero-desc {
     font-size: 16px; line-height: 1.75; font-weight: 400;
-    color: rgba(255,255,255,0.9);
-    max-width: 520px; margin-bottom: 48px;
+    color: rgba(255,255,255,0.92);
+    max-width: 540px; margin-bottom: 20px;
     animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-desc-secondary {
+    font-size: 14px; line-height: 1.7;
+    color: var(--gold-light);
+    font-style: italic;
+    border-left: 2px solid var(--gold-light);
+    padding-left: 16px;
+    margin-bottom: 36px;
+    animation: fadeUp 0.8s 0.25s ease both;
   }
 
   .hero-tags {
-    display: flex; flex-wrap: wrap; gap: 10px;
-    margin-bottom: 48px;
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 0;
     animation: fadeUp 0.8s 0.3s ease both;
   }
   .hero-tag {
@@ -137,78 +179,108 @@
     background: rgba(255,255,255,0.06);
   }
 
-  .hero-cta {
-    display: flex; gap: 16px;
-    animation: fadeUp 0.8s 0.4s ease both;
-  }
-  .btn-primary {
-    background: var(--white);
-    color: var(--navy);
-    padding: 14px 32px; border-radius: 2px;
-    font-size: 14px; font-weight: 600; letter-spacing: 0.05em;
-    text-decoration: none; text-transform: uppercase;
-    transition: all 0.2s;
-  }
-  .btn-primary:hover { background: var(--gold-light); color: var(--navy); transform: translateY(-1px); }
-  .btn-outline {
-    border: 1px solid rgba(255,255,255,0.6);
-    color: var(--white);
-    padding: 14px 32px; border-radius: 2px;
-    font-size: 14px; font-weight: 500; letter-spacing: 0.05em;
-    text-decoration: none; text-transform: uppercase;
-    transition: all 0.2s;
-  }
-  .btn-outline:hover { border-color: var(--gold-light); color: var(--gold-light); background: rgba(255,255,255,0.05); }
-
-  .hero-right {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 120px 64px 80px 32px;
+  /* Right column: horizontal photo + stat grid */
+  .hero-right-col {
+    grid-column: 2;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    align-self: center;
+    gap: 20px;
+    padding: 0 64px 0 32px;
+    width: 100%; max-width: 480px;
+    margin: 0 auto;
     position: relative; z-index: 2;
   }
-
-  .hero-stats {
+  .hero-photo-frame {
+    position: relative;
+    width: 100%; max-width: 440px;
+    margin-top: 46px;
+    animation: fadeUp 1s 0.2s ease both;
+  }
+  .hero-photo-frame::before {
+    content: '';
+    position: absolute;
+    inset: -12px -12px 12px 12px;
+    border: 1.5px solid var(--gold-light);
+    border-radius: 4px;
+    z-index: 0;
+    opacity: 0.6;
+  }
+  .hero-photo {
+    position: relative; z-index: 1;
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    object-fit: cover;
+    object-position: center 70%;
+    border-radius: 4px;
+    display: block;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+    filter: saturate(1.05) contrast(1.02);
+  }
+  .hero-stats-grid {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 24px; margin-bottom: 40px;
-    animation: fadeUp 0.8s 0.3s ease both;
+    gap: 14px;
+    width: 100%; max-width: 440px;
+    animation: fadeUp 0.8s 0.4s ease both;
   }
   .stat-card {
     background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 4px; padding: 24px;
-    transition: border-color 0.2s;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 24px 22px;
+    text-decoration: none; color: inherit;
+    display: block;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
   }
-  .stat-card:hover { border-color: rgba(178,34,34,0.3); }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-light), #F5DCDC);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .stat-card:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(212,160,160,0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  }
+  .stat-card:hover::before { transform: scaleX(1); }
+  .stat-card:hover .stat-link {
+    color: var(--gold-light);
+  }
   .stat-num {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 42px; font-weight: 300;
-    color: var(--gold-light); line-height: 1;
-    margin-bottom: 8px;
+    font-size: clamp(42px, 4vw, 56px); font-weight: 300;
+    color: var(--white); line-height: 1;
+    margin-bottom: 10px;
+    display: flex; align-items: baseline; gap: 2px;
+  }
+  .stat-num em {
+    font-style: normal;
+    color: var(--gold-light);
+    font-size: 0.7em;
   }
   .stat-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.02em;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .stat-link {
     font-family: 'DM Mono', monospace;
-    font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-    color: rgba(255,255,255,0.75);
+    font-size: 9px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    transition: color 0.25s;
+    display: flex; align-items: center; gap: 4px;
   }
-
-  .hero-awards {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(178,34,34,0.15);
-    border-radius: 4px; padding: 24px;
-    animation: fadeUp 0.8s 0.4s ease both;
-  }
-  .awards-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--gold-light); margin-bottom: 16px;
-  }
-  .award-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    font-size: 14px; color: rgba(255,255,255,0.92); line-height: 1.5;
-  }
-  .award-item:last-child { border-bottom: none; }
-  .award-item::before { content: '✦'; color: var(--gold); font-size: 8px; margin-top: 4px; flex-shrink: 0; }
+  .stat-link::after { content: '→'; font-size: 11px; }
 
   /* ── SECTIONS ── */
   section { padding: 96px 0; }
@@ -217,13 +289,21 @@
 
   .section-label {
     font-family: 'DM Mono', monospace;
-    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 12px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 12px;
     display: flex; align-items: center; gap: 12px;
   }
   .section-label::before {
     content: ''; display: block;
-    width: 24px; height: 1px; background: var(--gold);
+    width: 24px; height: 1px; background: var(--blue);
+  }
+  #projects .section-label,
+  #contact .section-label {
+    color: var(--gold-light);
+  }
+  #projects .section-label::before,
+  #contact .section-label::before {
+    background: var(--gold-light);
   }
 
   .section-title {
@@ -252,11 +332,22 @@
     gap: 40px;
     transition: all 0.25s;
     cursor: default;
+    scroll-margin-top: 80px;
   }
   .exp-card:hover {
     border-left-color: var(--gold);
     background: var(--white);
     transform: translateX(4px);
+  }
+  .exp-card:target {
+    border-left-color: var(--gold);
+    background: var(--white);
+    box-shadow: 0 8px 30px rgba(139,26,26,0.15);
+    animation: targetFlash 1.2s ease;
+  }
+  @keyframes targetFlash {
+    0% { background: #FFE9E9; }
+    100% { background: var(--white); }
   }
 
   .exp-meta { padding-top: 4px; }
@@ -289,6 +380,30 @@
     content: '›'; position: absolute; left: 0;
     color: var(--gold); font-size: 16px; line-height: 1.4;
   }
+  .exp-docs {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 4px;
+    margin-top: 18px; padding-top: 16px;
+    border-top: 1px solid var(--cream-dark);
+  }
+  .exp-doc-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+    color: var(--blue); text-decoration: none;
+    padding: 6px 10px; border-radius: 2px;
+    background: rgba(178,34,34,0.06);
+    border: 1px solid rgba(139,26,26,0.15);
+    transition: all 0.2s ease;
+  }
+  .exp-doc-link:hover {
+    background: var(--navy);
+    color: var(--white);
+    border-color: var(--navy);
+  }
+  .exp-doc-sep {
+    color: var(--text-light);
+    font-size: 12px;
+    user-select: none;
+  }
 
   /* ── PROJECTS ── */
   #projects { background: var(--navy); }
@@ -307,6 +422,47 @@
     border-radius: 4px; padding: 32px;
     transition: all 0.25s;
     position: relative; overflow: hidden;
+    display: block; text-decoration: none; color: inherit;
+  }
+  a.project-card { cursor: pointer; }
+  .project-card-primary {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  .project-extra-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative; z-index: 2;
+  }
+  .project-extra-link:hover { color: var(--gold-light); }
+  .project-extra-link::after { content: '→'; font-size: 11px; }
+  .project-card .ext-arrow {
+    position: absolute; top: 16px; right: 16px;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.55);
+    font-size: 13px; line-height: 1;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+  }
+  .project-card:hover .ext-arrow {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+    color: var(--navy);
+    opacity: 1;
+    transform: rotate(-45deg) scale(1.1);
   }
   .project-card::before {
     content: ''; position: absolute;
@@ -349,15 +505,41 @@
 
   .pub-list { display: grid; gap: 16px; }
 
+  .pub-anchor { scroll-margin-top: 80px; }
+  .pub-anchor:target > .pub-card {
+    border-color: rgba(139,26,26,0.45);
+    transform: translateX(4px);
+    box-shadow: 0 8px 30px rgba(139,26,26,0.15);
+    animation: targetFlash 1.2s ease;
+  }
+
   .pub-card {
     background: var(--white);
     border-radius: 4px; padding: 28px 32px;
-    display: grid; grid-template-columns: 64px 1fr;
+    display: grid; grid-template-columns: 64px 1fr auto;
     gap: 24px; align-items: start;
     border: 1px solid var(--cream-dark);
     transition: all 0.2s;
+    text-decoration: none; color: inherit;
+    position: relative;
   }
-  .pub-card:hover { border-color: rgba(139,26,26,0.2); transform: translateX(4px); }
+  .pub-card:hover { border-color: rgba(139,26,26,0.35); transform: translateX(4px); box-shadow: 0 8px 24px rgba(139,26,26,0.08); }
+  a.pub-card { cursor: pointer; }
+  .pub-card .pub-arrow {
+    align-self: center;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    color: var(--text-light);
+    font-size: 16px; line-height: 1;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+  .pub-card:hover .pub-arrow {
+    background: var(--gold);
+    color: var(--white);
+    transform: translateX(3px) rotate(-45deg);
+  }
 
   .pub-num {
     font-family: 'Cormorant Garamond', serif;
@@ -386,7 +568,272 @@
     padding: 2px 8px; border-radius: 2px;
     text-transform: uppercase;
   }
+  .pub-badge-presented {
+    background: var(--navy);
+    color: var(--white);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em;
+    padding: 5px 12px;
+    border-radius: 3px;
+    border: 1.5px solid var(--blue);
+    margin-left: 10px;
+    vertical-align: middle;
+    box-shadow: 0 2px 8px rgba(139,26,26,0.2);
+  }
 
+  /* ── POSTER CAROUSEL ── */
+  .poster-carousel-wrap {
+    margin-top: 48px;
+    background: var(--white);
+    border: 1px solid var(--cream-dark);
+    border-radius: 4px;
+    padding: 32px 36px 28px;
+  }
+  .poster-carousel-header {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .poster-carousel-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 8px;
+  }
+  .poster-carousel-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--navy); margin-bottom: 6px; line-height: 1.3;
+  }
+  .poster-carousel-sub {
+    font-size: 13px; color: var(--text-mid); line-height: 1.5;
+  }
+  .poster-carousel-sub a {
+    color: var(--blue); text-decoration: none; font-weight: 500;
+    border-bottom: 1px solid rgba(178,34,34,0.25);
+    transition: border-color 0.2s;
+  }
+  .poster-carousel-sub a:hover { border-color: var(--blue); }
+  .poster-carousel {
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    gap: 12px; align-items: center;
+  }
+  .carousel-btn {
+    width: 44px; height: 44px;
+    border: 1px solid var(--cream-dark);
+    background: var(--cream);
+    color: var(--navy);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px; line-height: 1;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .carousel-btn:hover {
+    background: var(--navy);
+    color: var(--white);
+    border-color: var(--navy);
+  }
+  .carousel-viewport {
+    height: 520px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--white);
+    border: 1px solid var(--cream-dark);
+  }
+  .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.45s ease;
+  }
+  .carousel-slide {
+    min-width: 100%;
+    width: 100%;
+    height: 520px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .carousel-slide-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 16px 0;
+    overflow: hidden;
+  }
+  .carousel-slide-single {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .carousel-slide-single img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    display: block;
+  }
+  .carousel-collage-bsn {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .carousel-collage-bsn .collage-main {
+    grid-column: 1;
+    grid-row: 1 / -1;
+  }
+  .carousel-collage-bsn .collage-side-top {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .carousel-collage-bsn .collage-side-bottom {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .carousel-collage-uconn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .carousel-collage-uconn-single {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    height: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .collage-cell {
+    overflow: hidden;
+    border-radius: 2px;
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+  }
+  .collage-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    display: block;
+  }
+  .collage-cell img.fit-top {
+    object-fit: cover;
+    object-position: center top;
+  }
+  .collage-cell-link {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+  }
+  .collage-cell-link:hover { opacity: 0.92; }
+  .collage-cell-with-caption {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .collage-cell-with-caption img {
+    flex: 1;
+    min-height: 0;
+  }
+  .collage-cell-caption {
+    flex: 0 0 auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--text-mid);
+    text-align: center;
+    padding: 4px 0 2px;
+    background: var(--white);
+  }
+  .carousel-caption.is-multiline {
+    flex: 0 0 58px;
+    font-size: 10px;
+    line-height: 1.45;
+    padding: 8px 16px;
+  }
+  .carousel-caption a {
+    color: var(--blue);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(178,34,34,0.25);
+    transition: border-color 0.2s;
+  }
+  .carousel-caption a:hover { border-color: var(--blue); }
+  .carousel-caption {
+    flex: 0 0 46px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--text-mid);
+    text-align: center;
+    padding: 0 20px;
+    border-top: 1px solid var(--cream-dark);
+    width: 100%;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .carousel-caption.is-split {
+    justify-content: space-between;
+    gap: 20px;
+    flex: 0 0 58px;
+    font-size: 10px;
+    line-height: 1.45;
+    padding: 8px 16px;
+    text-align: left;
+  }
+  .carousel-caption .caption-left {
+    flex: 0 1 auto;
+    text-align: left;
+  }
+  .carousel-caption .caption-right {
+    flex: 0 1 52%;
+    text-align: right;
+  }
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .carousel-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: var(--cream-dark);
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s;
+  }
+  .carousel-dot.active {
+    background: var(--navy);
+    transform: scale(1.15);
+  }
   /* ── SKILLS ── */
   #skills { background: var(--white); }
 
@@ -399,10 +846,70 @@
   .skill-block {
     padding: 32px;
     border: 1px solid var(--cream-dark);
-    border-radius: 4px;
-    transition: all 0.2s;
+    border-radius: 6px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
   }
-  .skill-block:hover { border-color: rgba(178,34,34,0.3); background: var(--cream); }
+  .skill-block:hover { border-color: rgba(178,34,34,0.3); background: var(--cream); transform: translateY(-3px); }
+
+  .skill-block-featured {
+    background: linear-gradient(135deg, rgba(139,26,26,0.04) 0%, rgba(212,160,160,0.08) 100%);
+    border-color: rgba(212,160,160,0.45);
+  }
+  .skill-block-featured::before {
+    content: 'NEW IN 2026';
+    position: absolute;
+    top: 14px; right: 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px; font-weight: 700; letter-spacing: 0.15em;
+    padding: 3px 8px;
+    background: var(--gold);
+    color: var(--white);
+    border-radius: 2px;
+  }
+  .skill-block-featured:hover { background: linear-gradient(135deg, rgba(139,26,26,0.07) 0%, rgba(212,160,160,0.14) 100%); border-color: rgba(139,26,26,0.5); }
+
+  /* Languages strip */
+  .languages-strip {
+    margin-top: 48px;
+    padding: 24px 32px;
+    background: var(--cream);
+    border: 1px solid var(--cream-dark);
+    border-radius: 6px;
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 24px;
+  }
+  .languages-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold);
+    padding-right: 24px;
+    border-right: 1px solid var(--cream-dark);
+  }
+  .languages-items {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 20px; flex: 1;
+  }
+  .lang-item {
+    font-size: 14px; color: var(--text-mid);
+    line-height: 1.4;
+  }
+  .lang-item strong {
+    color: var(--navy); font-weight: 600;
+    margin-right: 2px;
+  }
+  .lang-divider {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--gold-light);
+    opacity: 0.6;
+  }
+  @media (max-width: 700px) {
+    .languages-strip { flex-direction: column; align-items: flex-start; gap: 12px; padding: 20px; }
+    .languages-label { border-right: none; padding-right: 0; padding-bottom: 8px; border-bottom: 1px solid var(--cream-dark); width: 100%; }
+    .languages-items { gap: 14px; }
+  }
 
   .skill-icon {
     font-size: 24px; margin-bottom: 16px;
@@ -418,71 +925,207 @@
   }
 
   /* ── EDUCATION ── */
-  #education { background: var(--navy-mid); }
-  #education .section-title { color: var(--white); }
-  #education .section-sub { color: rgba(255,255,255,0.85); }
+  #education { background: var(--cream); scroll-margin-top: 64px; }
 
   .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
   .edu-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 4px; padding: 40px;
-    transition: border-color 0.2s;
+    background: var(--white);
+    border: 1px solid var(--cream-dark);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    display: flex; flex-direction: column;
   }
-  .edu-card:hover { border-color: rgba(178,34,34,0.3); }
+  .edu-card:hover {
+    border-color: rgba(139,26,26,0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(139,26,26,0.1);
+  }
+  .edu-photo {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.5s ease, filter 0.4s ease;
+    filter: saturate(1.05) contrast(1.02);
+  }
+  @media (max-width: 900px) {
+    .edu-photo { height: 280px; }
+  }
+  .edu-card:hover .edu-photo {
+    transform: scale(1.04);
+    filter: saturate(1.12) contrast(1.05) brightness(1.04);
+  }
+  .edu-card-body {
+    padding: 32px 36px 36px;
+    flex: 1;
+    display: flex; flex-direction: column;
+  }
 
   .edu-degree {
     font-family: 'Cormorant Garamond', serif;
     font-size: 24px; font-weight: 600;
-    color: var(--white); margin-bottom: 6px; line-height: 1.2;
+    color: var(--navy); margin-bottom: 6px; line-height: 1.2;
   }
   .edu-school {
-    font-size: 15px; color: var(--gold-light); font-weight: 500;
+    font-size: 15px; color: var(--blue); font-weight: 500;
     margin-bottom: 4px;
   }
   .edu-date {
     font-family: 'DM Mono', monospace;
-    font-size: 12px; color: rgba(255,255,255,0.75); font-weight: 500;
+    font-size: 12px; color: var(--text-mid); font-weight: 500;
     letter-spacing: 0.08em; margin-bottom: 20px;
   }
   .edu-courses {
     font-size: 14px; line-height: 1.7; font-weight: 400;
-    color: rgba(255,255,255,0.88); margin-bottom: 16px;
+    color: var(--text-mid); margin-bottom: 16px;
   }
   .edu-awards { display: flex; flex-wrap: wrap; gap: 8px; }
   .edu-award {
     font-family: 'DM Mono', monospace;
     font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
     padding: 5px 11px; border-radius: 2px;
-    background: rgba(255,255,255,0.12);
-    color: #F5DCDC;
-    border: 1px solid rgba(212,160,160,0.4);
+    background: rgba(178,34,34,0.08);
+    color: var(--navy);
+    border: 1px solid rgba(139,26,26,0.2);
   }
 
   /* ── CONTACT ── */
   #contact {
     background: var(--navy);
-    text-align: center; padding: 96px 64px;
+    text-align: center;
+    padding: 120px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,160,160,0.22) 0%, transparent 65%),
+      radial-gradient(circle 600px at 15% 110%, rgba(178,34,34,0.35) 0%, transparent 60%),
+      radial-gradient(circle 500px at 85% 110%, rgba(212,160,160,0.12) 0%, transparent 60%);
+    z-index: 0;
+  }
+  .contact-grid {
+    position: absolute; inset: 0; pointer-events: none;
+    opacity: 0.05; z-index: 0;
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 0%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 0%, transparent 80%);
+  }
+  .contact-wrap {
+    position: relative; z-index: 1;
+    max-width: 760px; margin: 0 auto;
+  }
+  .contact-status {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 18px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(212,160,160,0.3);
+    border-radius: 100px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 28px;
+    backdrop-filter: blur(8px);
+  }
+  .contact-pulse {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #4ADE80;
+    box-shadow: 0 0 12px rgba(74,222,128,0.7);
+    animation: contactPulse 2.2s infinite;
+  }
+  @keyframes contactPulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 12px rgba(74,222,128,0.7); }
+    50% { opacity: 0.55; transform: scale(1.5); box-shadow: 0 0 20px rgba(74,222,128,0.9); }
   }
   #contact .section-label { justify-content: center; }
   #contact .section-label::before { display: none; }
-  #contact .section-title { color: var(--white); text-align: center; margin: 0 auto 16px; }
-  #contact .section-sub { text-align: center; margin: 0 auto 48px; color: rgba(255,255,255,0.92); font-weight: 400; }
+  #contact .section-title {
+    color: var(--white); text-align: center; margin: 0 auto 20px;
+    font-size: clamp(48px, 6vw, 80px);
+  }
+  #contact .section-title em {
+    background: linear-gradient(135deg, var(--gold-light) 0%, #F5DCDC 50%, var(--gold-light) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  #contact .section-sub {
+    text-align: center; margin: 0 auto 56px;
+    color: rgba(255,255,255,0.92); font-weight: 400;
+    font-size: 17px; max-width: 640px;
+  }
 
   .contact-links {
     display: flex; justify-content: center;
     gap: 16px; flex-wrap: wrap;
   }
   .contact-link {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 32px; border-radius: 2px;
-    border: 1px solid rgba(255,255,255,0.45);
-    color: var(--white); text-decoration: none;
-    font-size: 14px; font-weight: 500; letter-spacing: 0.05em;
-    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 16px 28px; border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px; font-weight: 600; letter-spacing: 0.04em;
+    transition: all 0.3s ease;
+    min-width: 240px; justify-content: center;
+    position: relative; overflow: hidden;
   }
-  .contact-link:hover { border-color: var(--gold-light); color: var(--gold-light); background: rgba(255,255,255,0.05); }
+  .contact-link svg {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+  }
+  .contact-link .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-left: 4px;
+  }
+  .contact-link:hover .arrow { transform: translateX(5px); }
+
+  .contact-link-primary {
+    background: var(--white);
+    color: var(--navy);
+    border: 1px solid var(--white);
+    box-shadow: 0 8px 24px rgba(255,255,255,0.15);
+  }
+  .contact-link-primary:hover {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+    color: var(--navy);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(212,160,160,0.4);
+  }
+  .contact-link-secondary {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: var(--white);
+    backdrop-filter: blur(8px);
+  }
+  .contact-link-secondary:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: var(--gold-light);
+    color: var(--gold-light);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(0,0,0,0.3);
+  }
+
+  .contact-divider {
+    margin: 56px auto 0;
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,160,160,0.5), transparent);
+  }
+  .contact-tagline {
+    margin-top: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-style: italic;
+    color: rgba(255,255,255,0.55);
+  }
 
   /* ── FOOTER ── */
   footer {
@@ -510,9 +1153,28 @@
   .reveal.visible { opacity: 1; transform: none; }
 
   /* ── RESPONSIVE ── */
+  @media (min-width: 901px) and (max-width: 1200px) {
+    .hero { grid-template-columns: 1fr 0.95fr; }
+    .hero-text-col { padding-left: 40px; padding-right: 32px; }
+    .hero-right-col { padding-right: 40px; padding-left: 24px; }
+    .hero-photo-frame { max-width: 380px; }
+    .hero-name { font-size: clamp(38px, 4vw, 56px); }
+    .hero-stats-grid { gap: 10px; }
+    .stat-card { padding: 18px 16px; }
+    .stat-num { font-size: clamp(36px, 3.5vw, 48px); }
+  }
   @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; }
-    .hero-right { display: none; }
+    .hero { grid-template-columns: 1fr; align-items: stretch; padding: 96px 0 48px; }
+    .hero-text-col { grid-column: 1; padding: 0 32px 32px; text-align: center; }
+    .hero-text-col .hero-eyebrow { justify-content: center; }
+    .hero-text-col .hero-tags { justify-content: center; }
+    .hero-text-col .hero-desc, .hero-text-col .hero-desc-secondary { margin-left: auto; margin-right: auto; }
+    .hero-desc-secondary { border-left: none; border-top: 2px solid var(--gold-light); padding-left: 0; padding-top: 12px; }
+    .hero-name { white-space: normal; }
+    .hero-right-col { grid-column: 1; padding: 0 32px 64px; max-width: none; }
+    .hero-photo-frame { max-width: 360px; margin-top: 0; }
+    .hero-stats-grid { max-width: 360px; }
+    .hero-stats-grid { grid-template-columns: 1fr 1fr; }
     .exp-card { grid-template-columns: 1fr; gap: 12px; }
     .projects-grid { grid-template-columns: 1fr; }
     .skills-grid { grid-template-columns: 1fr 1fr; }
@@ -520,6 +1182,15 @@
     .container { padding: 0 32px; }
     nav { padding: 0 24px; }
     .nav-links { display: none; }
+    .poster-carousel-wrap { padding: 24px 16px 20px; }
+    .poster-carousel { grid-template-columns: 36px 1fr 36px; gap: 6px; }
+    .carousel-btn { width: 36px; height: 36px; font-size: 14px; }
+    .carousel-slide img { max-height: 380px; }
+    .carousel-viewport { height: 440px; }
+    .carousel-slide { height: 440px; }
+    .carousel-caption { flex: 0 0 40px; font-size: 10px; }
+    .carousel-caption.is-split { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .carousel-caption .caption-right { flex: 1 1 auto; text-align: left; max-width: 100%; }
   }
 </style>
 </head>
@@ -529,11 +1200,11 @@
 <nav>
   <div class="nav-name">Yashvi Gupta</div>
   <ul class="nav-links">
+    <li><a href="#education">Education</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#publications">Publications</a></li>
     <li><a href="#skills">Skills</a></li>
-    <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -543,53 +1214,96 @@
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
 
-  <div class="hero-left">
+  <div class="hero-text-col">
     <div class="hero-eyebrow">Biomedical Engineer</div>
-    <h1 class="hero-name">Yashvi<br><span>Gupta</span></h1>
-    <p class="hero-title">M.Eng. Cornell University · BME</p>
+    <h1 class="hero-name">Yashvi <span>Gupta</span></h1>
+    <p class="hero-title">Cornell University · Master of Engineering in Biomedical Engineering</p>
+    <a href="https://www.linkedin.com/in/yashvigupta7/" target="_blank" rel="noopener" class="hero-linkedin">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.024-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      </svg>
+      LinkedIn
+    </a>
     <p class="hero-desc">
-      Biomedical engineer specializing in medical device design, R&amp;D, and quality engineering — bridging clinical insight with rigorous engineering practice to develop solutions that meaningfully improve patient outcomes.
+      Upon my graduation from Cornell University, I focused on medical device innovation and downstream processing — applying my biomedical engineering background to translate research into practical, patient-centered solutions. My work brought together technical development, data-driven problem solving, and cross-functional collaboration to address complex challenges in healthcare.
+    </p>
+    <p class="hero-desc hero-desc-secondary">
+      Currently seeking full-time opportunities starting June 2026 to further build industry experience upon my recent graduate studies.
     </p>
     <div class="hero-tags">
       <span class="hero-tag">R&D Engineering</span>
       <span class="hero-tag">Medical Device Design</span>
-      <span class="hero-tag">SolidWorks · Fusion 360</span>
-      <span class="hero-tag">Six Sigma Black Belt</span>
-      <span class="hero-tag">Clinical Exposure</span>
-      <span class="hero-tag">V&V · Design Controls</span>
-    </div>
-    <div class="hero-cta">
-      <a href="#experience" class="btn-primary">View My Work</a>
-      <a href="https://www.linkedin.com/in/yashvigupta7/" target="_blank" class="btn-outline">LinkedIn</a>
+      <span class="hero-tag">Product Development</span>
+      <span class="hero-tag">Data Science & Process Analytics</span>
+      <span class="hero-tag">Systems Engineering</span>
     </div>
   </div>
 
-  <div class="hero-right">
-    <div class="hero-stats">
-      <div class="stat-card">
-        <div class="stat-num">5</div>
-        <div class="stat-label">IEEE Publications</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">7</div>
-        <div class="stat-label">Live OR Procedures Observed</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">3+</div>
-        <div class="stat-label">Years CAD Experience</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">BB</div>
-        <div class="stat-label">Six Sigma Certified</div>
-      </div>
+  <div class="hero-right-col">
+    <div class="hero-photo-frame">
+      <img src="assets/yashvi-cornell.png" alt="Yashvi Gupta at Cornell University" class="hero-photo">
     </div>
-    <div class="hero-awards">
-      <div class="awards-label">Honors & Recognition</div>
-      <div class="award-item">1st Place — Cornell Six Sigma Hackathon '25</div>
-      <div class="award-item">JHU Digital Health Finalist '26</div>
-      <div class="award-item">Recognized Speaker — Clinical Preceptorship '25</div>
-      <div class="award-item">OUR Conference Presentation Grant '24</div>
-      <div class="award-item">National Dance Team Competitor '21–'25</div>
+    <div class="hero-stats-grid">
+      <a href="#publications" class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">IEEE Publications &amp; Research</div>
+        <div class="stat-link">View publications</div>
+      </a>
+      <a href="#exp-guthrie" class="stat-card">
+        <div class="stat-num">7</div>
+        <div class="stat-label">Live OR Surgical Procedures Observed</div>
+        <div class="stat-link">Clinical preceptorship</div>
+      </a>
+      <a href="#exp-west" class="stat-card">
+        <div class="stat-num">3<em>+</em></div>
+        <div class="stat-label">Years Medical Device Engineering Experience</div>
+        <div class="stat-link">Design engineer role</div>
+      </a>
+      <a href="#projects" class="stat-card">
+        <div class="stat-num">BB</div>
+        <div class="stat-label">Black Belt Six Sigma Certified</div>
+        <div class="stat-link">Engineering projects</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="section-label">Education</div>
+    <h2 class="section-title">Academic <em>foundation</em></h2>
+    <p class="section-sub">Rigorous engineering training across two nationally recognized programs.</p>
+
+    <div class="edu-grid reveal">
+      <div class="edu-card">
+        <img class="edu-photo" src="assets/cornell.png" alt="Yashvi Gupta at Cornell University with McGraw clocktower" style="object-position: center top;">
+        <div class="edu-card-body">
+          <div class="edu-degree">Master of Engineering<br>Biomedical Engineering</div>
+          <div class="edu-school">Cornell University, College of Engineering</div>
+          <div class="edu-date">May 2026 · Ithaca, NY</div>
+          <div class="edu-courses">BME M.Eng Design Project · Biomedical Technology Innovation & Design · Clinical Preceptorship · Systems Engineering & Six Sigma · Biomaterials & Drug Delivery · Engineering Human Body · Clinical Cardiac Electrophysiology · Business of Entrepreneurship · Project Management</div>
+          <div class="edu-awards">
+            <span class="edu-award">Cornell Hackathon 1st Place '25</span>
+            <span class="edu-award">JHU Digital Health Finalist '26</span>
+            <span class="edu-award">Recognized Speaker '25</span>
+          </div>
+        </div>
+      </div>
+      <div class="edu-card">
+        <img class="edu-photo" src="assets/uconn.png" alt="Yashvi Gupta at the UConn graduation sign" style="object-position: center 25%;">
+        <div class="edu-card-body">
+          <div class="edu-degree">Bachelor of Science in Engineering<br>Mathematics Minor</div>
+          <div class="edu-school">University of Connecticut, School of Engineering</div>
+          <div class="edu-date">May 2025 · Storrs, CT</div>
+          <div class="edu-courses">Biomedical Engineering Design Project I & II · Clinical Instrumentation Systems · Physiological Systems · Biomaterials & Drug Delivery · Biomechanics</div>
+          <div class="edu-awards">
+            <span class="edu-award">OUR Presentation Grant '24</span>
+            <span class="edu-award">Academic & Leadership Scholarship</span>
+            <span class="edu-award">National Dance Team '21–'25</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -603,7 +1317,7 @@
 
     <div class="exp-grid reveal">
 
-      <div class="exp-card">
+      <div class="exp-card" id="exp-west">
         <div class="exp-meta">
           <div class="exp-date">Sep 2025 – May 2026</div>
           <div class="exp-org">West Pharmaceutical Services</div>
@@ -619,7 +1333,7 @@
         </div>
       </div>
 
-      <div class="exp-card">
+      <div class="exp-card" id="exp-guthrie">
         <div class="exp-meta">
           <div class="exp-date">Sep – Dec 2025</div>
           <div class="exp-org">Guthrie Robert Packer Hospital</div>
@@ -631,6 +1345,11 @@
             <li>Observed 7 live surgical procedures including urologic endoscopy and breast surgery — developing direct familiarity with surgical instrument handling, sterile technique, and OR workflow constraints</li>
             <li>Presented engineering poster on imaging/laser technologies, signal translation, and medical device optimization to clinical and academic professionals</li>
           </ul>
+          <div class="exp-docs">
+            <a href="assets/clinical-preceptorship-final-report.pdf" target="_blank" rel="noopener" class="exp-doc-link">📄 Final Paper</a>
+            <span class="exp-doc-sep">·</span>
+            <a href="assets/clinical-preceptorship-poster.pptx" target="_blank" rel="noopener" class="exp-doc-link">📄 Clinical Poster</a>
+          </div>
         </div>
       </div>
 
@@ -647,6 +1366,11 @@
             <li>Conducted mechanical testing at 0°, 45°, and 90° arm positions; performed bench validation across injured and uninjured conditions, iterating on sensor placement and mechanical fixture design</li>
             <li>Documented design iterations and deliverables; presented at formal engineering showcase to industry sponsors and faculty</li>
           </ul>
+          <div class="exp-docs">
+            <a href="assets/shoulder-rehabilitation-final-report.pdf" target="_blank" rel="noopener" class="exp-doc-link">📄 Final Report</a>
+            <span class="exp-doc-sep">·</span>
+            <a href="https://seniordesignday.engr.uconn.edu/seniorprojectpt/senior-design-2025-biomedical-engineering-team-18/" target="_blank" rel="noopener" class="exp-doc-link">📄 Senior Design Day</a>
+          </div>
         </div>
       </div>
 
@@ -676,6 +1400,9 @@
             <li>Collected high-frequency ECG recordings from 30 participants during controlled stress protocols to extract skin sympathetic nerve activity (SKNA)</li>
             <li>Developed audio-inspired spectral features via ECG-derived SKNA using LabChart8 to classify autonomic stress responses — contributing to IEEE-EMBS publication</li>
           </ul>
+          <div class="exp-docs">
+            <a href="#pub-02" class="exp-doc-link">📄 Research Paper 2</a>
+          </div>
         </div>
       </div>
 
@@ -691,6 +1418,13 @@
             <li>Collected ECG and EDA signals from 20 participants during prolonged-wakefulness protocols using iMotions to evaluate physiological markers of fatigue and sleepiness</li>
             <li>Co-authored 3 peer-reviewed IEEE publications on sleepiness detection and autonomic response; presented poster at BSN 2024</li>
           </ul>
+          <div class="exp-docs">
+            <a href="#pub-03" class="exp-doc-link">📄 Research Paper 3</a>
+            <span class="exp-doc-sep">·</span>
+            <a href="#pub-04" class="exp-doc-link">📄 Research Paper 4</a>
+            <span class="exp-doc-sep">·</span>
+            <a href="#pub-05" class="exp-doc-link">📄 Research Paper 5</a>
+          </div>
         </div>
       </div>
 
@@ -707,7 +1441,8 @@
 
     <div class="projects-grid reveal">
 
-      <div class="project-card">
+      <a class="project-card" href="https://github.com/chatterjee-srinjoy/Control-Freaks-Six-Sigma/tree/main" target="_blank" rel="noopener">
+        <span class="ext-arrow">↗</span>
         <div class="project-tag">🏆 1st Place · Six Sigma Hackathon</div>
         <div class="project-title">MedHive — Medication Waste Dashboard</div>
         <div class="project-desc">SPC-based R Shiny analytics platform identifying drivers of prescription medication waste in nursing homes. Delivered actionable insights in 24 hours.</div>
@@ -717,9 +1452,27 @@
           <span class="tech-pill">ggplot2</span>
           <span class="tech-pill">Statistical Modeling</span>
         </div>
-      </div>
+      </a>
 
       <div class="project-card">
+        <a class="project-card-primary" href="assets/SurgeSentinel_JHU_Hackathon.pptx" target="_blank" rel="noopener">
+          <span class="ext-arrow">↗</span>
+          <div class="project-tag">🏆 JHU Digital Health Finalist '26 · Top 8 of 568</div>
+          <div class="project-title">SurgeSentinel — Post-Cesarean Wound Care</div>
+          <div class="project-desc">AI-powered remote monitoring system covering the critical 14-day post-discharge window after C-section. CNN-based wound image analysis paired with personalized risk scoring (BMI, GDM, HTN, surgery duration) triages infections early and routes alerts to surgeons via FHIR/EHR integration. Cornell team — Chief Medical Officer.</div>
+          <div class="project-tech">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">CNN</span>
+            <span class="tech-pill">Risk Scoring</span>
+            <span class="tech-pill">FHIR / EHR</span>
+            <span class="tech-pill">Mobile</span>
+          </div>
+        </a>
+        <a class="project-extra-link" href="https://cbid.bme.jhu.edu/2026-johns-hopkins-healthcare-design-competition-finalists/" target="_blank" rel="noopener">JHU Healthcare Design Competition finalist</a>
+      </div>
+
+      <a class="project-card" href="https://drive.google.com/file/d/1z4fE7PnCmHirnWePL4e2tQgA1YSY_Orz/view?usp=sharing" target="_blank" rel="noopener">
+        <span class="ext-arrow">↗</span>
         <div class="project-tag">Systems Engineering · Cornell</div>
         <div class="project-title">Neonatal CPAP Reliability Improvement</div>
         <div class="project-desc">DMAIC-driven evaluation benchmarking 3 CPAP devices against ±0.5 cmH₂O targets. Identified root-cause failure modes and modeled yield improvement from 68% to >95%.</div>
@@ -729,9 +1482,10 @@
           <span class="tech-pill">R Shiny</span>
           <span class="tech-pill">SPC</span>
         </div>
-      </div>
+      </a>
 
-      <div class="project-card">
+      <a class="project-card" href="https://github.com/yashvigupta7/dsai/blob/main/02_productivity/shiny_app/app.R" target="_blank" rel="noopener">
+        <span class="ext-arrow">↗</span>
         <div class="project-tag">Data Science · Cornell</div>
         <div class="project-title">FDAi — Device Recall Analytics</div>
         <div class="project-desc">End-to-end AI pipeline integrating FDA Open Data Recall API with GPT-4o-mini to autonomously generate device risk classification reports.</div>
@@ -741,9 +1495,10 @@
           <span class="tech-pill">OpenFDA API</span>
           <span class="tech-pill">GPT-4o-mini</span>
         </div>
-      </div>
+      </a>
 
-      <div class="project-card">
+      <a class="project-card" href="https://github.com/Kadambari-mirashi/PCOSense" target="_blank" rel="noopener">
+        <span class="ext-arrow">↗</span>
         <div class="project-tag">AI · Clinical Decision Support</div>
         <div class="project-title">PCOSense — PCOS Detection System</div>
         <div class="project-desc">Multi-agent RAG AI system integrating PubMed literature with XGBoost (AUROC 0.95) and SHAP explainability for interpretable PCOS screening.</div>
@@ -754,9 +1509,10 @@
           <span class="tech-pill">ChromaDB</span>
           <span class="tech-pill">FastAPI</span>
         </div>
-      </div>
+      </a>
 
-      <div class="project-card">
+      <a class="project-card" href="https://github.com/chatterjee-srinjoy/icu-twinops#medicube" target="_blank" rel="noopener">
+        <span class="ext-arrow">↗</span>
         <div class="project-tag">24-hr Hackathon · Cornell</div>
         <div class="project-title">Med(ICU)be — ICU Digital Twin</div>
         <div class="project-desc">AI-enabled ICU digital twin platform forecasting bed capacity, analyzing readmission risk, and simulating clinical interventions using synthetic patient datasets.</div>
@@ -766,18 +1522,7 @@
           <span class="tech-pill">FastAPI</span>
           <span class="tech-pill">Plotly</span>
         </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-tag">JHU Digital Health Finalist '26</div>
-        <div class="project-title">Digital Twins for Menopausal Transition</div>
-        <div class="project-desc">Co-authoring systematic review of data-driven models and digital twin approaches for menopausal transition and cognitive risk assessment. In progress.</div>
-        <div class="project-tech">
-          <span class="tech-pill">Systematic Review</span>
-          <span class="tech-pill">Digital Twins</span>
-          <span class="tech-pill">Cornell</span>
-        </div>
-      </div>
+      </a>
 
     </div>
   </div>
@@ -787,8 +1532,8 @@
 <section id="publications">
   <div class="container">
     <div class="section-label">Publications</div>
-    <h2 class="section-title">Peer-reviewed <em>research</em></h2>
-    <p class="section-sub">Five IEEE publications spanning autonomic signal processing, sleepiness detection, and biomedical wearable systems.</p>
+    <h2 class="section-title">IEEE <em>publications</em></h2>
+    <p class="section-sub">Spanning autonomic signal processing, sleepiness detection, and biomedical wearable systems.</p>
 
     <div class="pub-list reveal">
 
@@ -797,47 +1542,122 @@
         <div>
           <div class="pub-venue">Cornell University · In Progress</div>
           <div class="pub-title">Digital Twins and Data-Driven Models for Menopausal Transition and Cognitive Risk: A Systematic Review</div>
-          <div class="pub-meta">Co-author · Expected May 2026 <span class="pub-badge">In Progress</span></div>
+          <div class="pub-meta">Co-author · Expected June 2026 <span class="pub-badge">In Progress</span></div>
         </div>
       </div>
 
-      <div class="pub-card">
-        <div class="pub-num">02</div>
-        <div>
-          <div class="pub-venue">IEEE-EMBS BSN 2025 · Los Angeles, CA</div>
-          <div class="pub-title">Tuning In to Nerve Activity: Audio-Inspired Features for Sympathetic State Detection</div>
-          <div class="pub-meta">Co-author · F. Baghestani, Y. Gupta et al. · doi: 10.1109/BSN66969.2025.11337760</div>
-        </div>
+      <div id="pub-02" class="pub-anchor">
+        <a class="pub-card" href="https://ieeexplore.ieee.org/abstract/document/11337760" target="_blank" rel="noopener">
+          <div class="pub-num">02</div>
+          <div>
+            <div class="pub-venue">IEEE-EMBS BSN 2025 · Los Angeles, CA</div>
+            <div class="pub-title">Tuning In to Nerve Activity: Audio-Inspired Features for Sympathetic State Detection</div>
+            <div class="pub-meta">Co-author · F. Baghestani, Y. Gupta et al. · doi: 10.1109/BSN66969.2025.11337760</div>
+          </div>
+          <span class="pub-arrow">↗</span>
+        </a>
       </div>
 
-      <div class="pub-card">
-        <div class="pub-num">03</div>
-        <div>
-          <div class="pub-venue">IEEE ICASSP 2025 · Hyderabad, India</div>
-          <div class="pub-title">Exploring Acted Sleepy Speech to Advance Real-World Sleepiness Estimation and Cognitive Degradation Detection</div>
-          <div class="pub-meta">Co-author · J. Moon, Y. Kong, Y. Gupta et al. · doi: 10.1109/ICASSP49660.2025.10888755</div>
-        </div>
+      <div id="pub-03" class="pub-anchor">
+        <a class="pub-card" href="https://ieeexplore.ieee.org/document/10888755" target="_blank" rel="noopener">
+          <div class="pub-num">03</div>
+          <div>
+            <div class="pub-venue">IEEE ICASSP 2025 · Hyderabad, India</div>
+            <div class="pub-title">Exploring Acted Sleepy Speech to Advance Real-World Sleepiness Estimation and Cognitive Degradation Detection</div>
+            <div class="pub-meta">Co-author · J. Moon, Y. Kong, Y. Gupta et al. · doi: 10.1109/ICASSP49660.2025.10888755</div>
+          </div>
+          <span class="pub-arrow">↗</span>
+        </a>
       </div>
 
-      <div class="pub-card">
-        <div class="pub-num">04</div>
-        <div>
-          <div class="pub-venue">IEEE BSN 2024 · Chicago, IL</div>
-          <div class="pub-title">Toward Effective Sleepiness Simulation: Validation Using Perceptual and Physiological Measures</div>
-          <div class="pub-meta">Co-first author · J. Moon*, Y. Gupta* et al. · Presented poster · doi: 10.1109/BSN63547.2024.10780541 <span class="pub-badge">Presented</span></div>
-        </div>
+      <div id="pub-04" class="pub-anchor">
+        <a class="pub-card" href="https://ieeexplore.ieee.org/document/10780541" target="_blank" rel="noopener">
+          <div class="pub-num">04</div>
+          <div>
+            <div class="pub-venue">IEEE BSN 2024 · Chicago, IL</div>
+            <div class="pub-title">Toward Effective Sleepiness Simulation: Validation Using Perceptual and Physiological Measures</div>
+            <div class="pub-meta">Co-first author · J. Moon*, Y. Gupta* et al. · doi: 10.1109/BSN63547.2024.10780541 <span class="pub-badge pub-badge-presented">Presented</span></div>
+          </div>
+          <span class="pub-arrow">↗</span>
+        </a>
       </div>
 
-      <div class="pub-card">
-        <div class="pub-num">05</div>
-        <div>
-          <div class="pub-venue">IEEE BSN 2023 · Boston, MA</div>
-          <div class="pub-title">Your Sympathetic Nervous System Becomes More Sensitive to Sleep Deprivation When You Speak</div>
-          <div class="pub-meta">Co-author · J. Moon, Y. Kong, A. Powsner, Y. Gupta et al. · doi: 10.1109/BSN58485.2023.10331056</div>
-        </div>
+      <div id="pub-05" class="pub-anchor">
+        <a class="pub-card" href="https://ieeexplore.ieee.org/abstract/document/10331056" target="_blank" rel="noopener">
+          <div class="pub-num">05</div>
+          <div>
+            <div class="pub-venue">IEEE BSN 2023 · Boston, MA</div>
+            <div class="pub-title">Your Sympathetic Nervous System Becomes More Sensitive to Sleep Deprivation When You Speak</div>
+            <div class="pub-meta">Co-author · J. Moon, Y. Kong, A. Powsner, Y. Gupta et al. · doi: 10.1109/BSN58485.2023.10331056</div>
+          </div>
+          <span class="pub-arrow">↗</span>
+        </a>
       </div>
 
     </div>
+
+    <div class="poster-carousel-wrap reveal">
+      <div class="poster-carousel-header">
+        <div class="poster-carousel-label">Research Poster</div>
+        <h3 class="poster-carousel-title">Toward Effective Sleepiness Simulation: Validation Using Perceptual and Physiological Measures</h3>
+        <p class="poster-carousel-sub">IEEE BSN 2024 · Chicago, IL · Co-first author · OUR Conference Presentation Award · <a href="#pub-04">View publication</a></p>
+      </div>
+
+      <div class="poster-carousel" id="posterCarousel">
+        <button class="carousel-btn carousel-prev" type="button" aria-label="Previous slide">‹</button>
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <div class="carousel-slide">
+              <div class="carousel-slide-body">
+                <div class="carousel-collage carousel-collage-bsn">
+                  <div class="collage-cell collage-main">
+                    <a href="https://www.linkedin.com/posts/yashvigupta7_i-am-incredibly-honored-to-have-attended-ugcPost-7253116409281400832-egpp/" target="_blank" rel="noopener" class="collage-cell-link">
+                      <img src="assets/poster-bsn-2024-presenting.png" alt="Yashvi Gupta presenting at IEEE-EMBS BSN 2024 in Chicago">
+                    </a>
+                  </div>
+                  <div class="collage-cell collage-side-top collage-cell-with-caption">
+                    <img src="assets/jihye-graduation.png" alt="Dr. Jihye Moon" class="fit-top">
+                    <span class="collage-cell-caption">Jihye</span>
+                  </div>
+                  <div class="collage-cell collage-side-bottom">
+                    <img src="assets/chicago-lab-peers.png" alt="Dr. Ki Chon's lab at IEEE-EMBS BSN 2024 in Chicago" class="fit-top">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-slide-body">
+                <div class="carousel-collage carousel-collage-uconn-single">
+                  <div class="collage-cell">
+                    <img src="assets/poster-our-award.png" alt="OUR Conference Presentation Award research poster at the University of Connecticut" class="fit-top">
+                  </div>
+                </div>
+              </div>
+              <p class="carousel-caption is-split">
+                <span class="caption-left">Spring 2025 · University of Connecticut · OUR Presentation Award · B.S.E. Biomedical Engineering</span>
+                <span class="caption-right">Fall 2024 · Chicago, IL · IEEE-EMBS BSN 2024 · <a href="https://www.linkedin.com/posts/yashvigupta7_i-am-incredibly-honored-to-have-attended-ugcPost-7253116409281400832-egpp/" target="_blank" rel="noopener">View on LinkedIn ↗</a> · Co-first author with Dr.&nbsp;Jihye Moon · Dr.&nbsp;Ki Chon's Lab · PhD Candidate Farnoush Baghestani</span>
+              </p>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-slide-body">
+                <div class="carousel-slide-single">
+                  <img src="assets/poster-bsn-2024-session.png" alt="Yashvi Gupta as BMES Symposium panelist at Cornell University">
+                </div>
+              </div>
+              <p class="carousel-caption">Fall 2025 · BMES Symposium Panelist at Cornell University</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-btn carousel-next" type="button" aria-label="Next slide">›</button>
+      </div>
+
+      <div class="carousel-dots" id="posterDots">
+        <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
+        <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
+        <button class="carousel-dot" type="button" aria-label="Slide 3"></button>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -846,72 +1666,43 @@
   <div class="container">
     <div class="section-label">Skills</div>
     <h2 class="section-title">Technical <em>toolkit</em></h2>
-    <p class="section-sub">A broad engineering foundation spanning mechanical design, clinical systems, regulatory frameworks, and applied computation.</p>
+    <p class="section-sub">An engineering foundation spanning mechanical design, regulatory frameworks, clinical instrumentation, and applied AI — built for modern MedTech development.</p>
 
     <div class="skills-grid reveal">
       <div class="skill-block">
-        
-        <div class="skill-cat">CAD & Prototyping</div>
-        <div class="skill-items">SolidWorks · Fusion 360 · COMSOL · ANSYS · 3D Printing · Bench Mechanical Testing · Design Iteration · V&V</div>
+        <div class="skill-cat">CAD &amp; Prototyping</div>
+        <div class="skill-items">SolidWorks · Fusion 360 · COMSOL · ANSYS · 3D Printing · Bench Mechanical Testing · Design Iteration · V&amp;V</div>
       </div>
       <div class="skill-block">
-        
-        <div class="skill-cat">Quality & Regulation</div>
-        <div class="skill-items">FDA Workflows · GMP/GxP · CAPA · RCA · NCR · Change Control · ISO 13485 · ISO 14971 · Design Controls</div>
+        <div class="skill-cat">Quality &amp; Regulation</div>
+        <div class="skill-items">ISO 13485 · ISO 14971 · Design Controls · FDA Workflows · GMP/GxP · CAPA · RCA · NCR · Change Control · Six Sigma Black Belt · DMAIC · SPC · DOE · FMEA · Process Validation · OQ/PQ · Gauge&nbsp;R&amp;R</div>
+      </div>
+      <div class="skill-block skill-block-featured">
+        <div class="skill-cat">Data Science &amp; AI</div>
+        <div class="skill-items">XGBoost · CNN · SHAP Explainability · RAG · Multi-Agent Systems · LLMs (GPT-4o, Llama 3.2) · Prompt Engineering · ChromaDB · Ollama · OpenFDA API · PubMed API · Statistical Modeling</div>
       </div>
       <div class="skill-block">
-        
-        <div class="skill-cat">Process Engineering</div>
-        <div class="skill-items">DMAIC · Six Sigma Black Belt · SPC · DOE · FMEA · Process Validation · OQ/PQ · Gauge R&R</div>
-      </div>
-      <div class="skill-block">
-        
-        <div class="skill-cat">Human Factors & UX</div>
+        <div class="skill-cat">Human Factors &amp; UX</div>
         <div class="skill-items">Biodesign · Usability Evaluation · HMI · Use-Related Risk Analysis · Clinical Observation · Ergonomics</div>
       </div>
       <div class="skill-block">
-        
-        <div class="skill-cat">Instrumentation & Signals</div>
+        <div class="skill-cat">Instrumentation &amp; Signals</div>
         <div class="skill-items">ECG · SKNA · EDA · EMG · PPG · Signal Acquisition · LabVIEW · LabChart8 · iMotions · NeuroMap</div>
       </div>
       <div class="skill-block">
-        
-        <div class="skill-cat">Software & Computation</div>
-        <div class="skill-items">Python · MATLAB · R · R Shiny · C++ · REST API · GitHub · XGBoost · RAG · LLM · FastAPI</div>
+        <div class="skill-cat">Software &amp; Computation</div>
+        <div class="skill-items">Python · MATLAB · R · R Shiny · C++ · FastAPI · Streamlit · Plotly · REST APIs · Git / GitHub · Supabase / PostgreSQL · FHIR / HIPAA-compliant</div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- EDUCATION -->
-<section id="education">
-  <div class="container">
-    <div class="section-label">Education</div>
-    <h2 class="section-title" style="color:var(--white)">Academic <em style="color:var(--gold-light)">foundation</em></h2>
-    <p class="section-sub">Rigorous engineering training across two nationally recognized programs.</p>
-
-    <div class="edu-grid reveal">
-      <div class="edu-card">
-        <div class="edu-degree">Master of Engineering<br>Biomedical Engineering</div>
-        <div class="edu-school">Cornell University, College of Engineering</div>
-        <div class="edu-date">May 2026 · Ithaca, NY</div>
-        <div class="edu-courses">BME M.Eng Design Project · Biomedical Technology Innovation & Design · Clinical Preceptorship · Systems Engineering & Six Sigma · Biomaterials & Drug Delivery · Engineering Human Body · Clinical Cardiac Electrophysiology · Business of Entrepreneurship · Project Management</div>
-        <div class="edu-awards">
-          <span class="edu-award">Cornell Hackathon 1st Place '25</span>
-          <span class="edu-award">JHU Digital Health Finalist '26</span>
-          <span class="edu-award">Recognized Speaker '25</span>
-        </div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-degree">Bachelor of Science in Engineering<br>Mathematics Minor</div>
-        <div class="edu-school">University of Connecticut, School of Engineering</div>
-        <div class="edu-date">May 2025 · Storrs, CT</div>
-        <div class="edu-courses">Biomedical Engineering Design Project I & II · Clinical Instrumentation Systems · Physiological Systems · Biomaterials & Drug Delivery · Biomechanics</div>
-        <div class="edu-awards">
-          <span class="edu-award">OUR Presentation Grant '24</span>
-          <span class="edu-award">Academic & Leadership Scholarship</span>
-          <span class="edu-award">National Dance Team '21–'25</span>
-        </div>
+    <div class="languages-strip reveal">
+      <div class="languages-label">Languages</div>
+      <div class="languages-items">
+        <span class="lang-item"><strong>English</strong> · Native</span>
+        <span class="lang-divider"></span>
+        <span class="lang-item"><strong>Hindi</strong> · State Seal of Biliteracy</span>
+        <span class="lang-divider"></span>
+        <span class="lang-item"><strong>Spanish</strong> · Conversational</span>
       </div>
     </div>
   </div>
@@ -919,16 +1710,39 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-label">Contact</div>
-  <h2 class="section-title">Let's <em>connect</em></h2>
-  <p class="section-sub">Open to opportunities in design engineering, product development, medical affairs, R&amp;D, quality engineering, and related MedTech roles. Based in Boston, MA — open to relocation.</p>
-  <div class="contact-links">
-    <a href="https://www.linkedin.com/in/yashvigupta7/" target="_blank" class="contact-link">
-      LinkedIn
-    </a>
-    <a href="mailto:yg678@cornell.edu" class="contact-link">
-      Email
-    </a>
+  <div class="contact-bg"></div>
+  <div class="contact-grid"></div>
+
+  <div class="contact-wrap">
+    <div class="contact-status">
+      <span class="contact-pulse"></span>
+      Available June 2026 · Open to relocation
+    </div>
+
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">Let's <em>connect</em></h2>
+    <p class="section-sub">Open to opportunities in design engineering, product development, medical affairs, R&amp;D, quality engineering, and related MedTech roles.</p>
+
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/yashvigupta7/" target="_blank" class="contact-link contact-link-primary">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.024-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+        <span>Connect on LinkedIn</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="mailto:yg678@cornell.edu" class="contact-link contact-link-secondary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M2 7l10 6 10-6"/>
+        </svg>
+        <span>yg678@cornell.edu</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <div class="contact-divider"></div>
+    <p class="contact-tagline">Looking forward to building what's next.</p>
   </div>
 </section>
 
@@ -949,6 +1763,61 @@
     });
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
+
+  // Jump to publication anchors from experience tabs
+  function goToPub(hash) {
+    const target = document.querySelector(hash);
+    if (!target) return;
+    const section = target.closest('.reveal');
+    if (section) section.classList.add('visible');
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.pushState(null, '', hash);
+  }
+
+  document.querySelectorAll('.exp-doc-link[href^="#pub-"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      goToPub(link.getAttribute('href'));
+    });
+  });
+
+  if (location.hash.match(/^#pub-/)) {
+    requestAnimationFrame(() => goToPub(location.hash));
+  }
+
+  // Research poster carousel
+  (function () {
+    const carousel = document.getElementById('posterCarousel');
+    const dotsWrap = document.getElementById('posterDots');
+    if (!carousel || !dotsWrap) return;
+
+    const track = carousel.querySelector('.carousel-track');
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dots = dotsWrap.querySelectorAll('.carousel-dot');
+    const prev = carousel.querySelector('.carousel-prev');
+    const next = carousel.querySelector('.carousel-next');
+    const viewport = carousel.querySelector('.carousel-viewport');
+    let current = 0;
+    let touchStartX = 0;
+
+    function goTo(idx) {
+      current = (idx + slides.length) % slides.length;
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+    }
+
+    prev.addEventListener('click', () => goTo(current - 1));
+    next.addEventListener('click', () => goTo(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+    viewport.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    viewport.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+    }, { passive: true });
+  })();
 </script>
 
 </body>
